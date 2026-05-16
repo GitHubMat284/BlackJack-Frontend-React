@@ -1,111 +1,133 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+.gold-ring {
+  border: 2px solid rgba(255, 213, 74, 0.55);
+  box-shadow:
+    0 0 12px rgba(255, 213, 74, 0.25),
+    inset 0 0 10px rgba(255, 213, 74, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
+.casino-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffd54a;
   text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  letter-spacing: 2px;
+
+  position: relative;
+  display: inline-block;
+
+  padding: 10px 20px;
+  border-radius: 12px;
+
+  border: 2px solid rgba(255, 213, 74, 0.55);
+  box-shadow:
+    0 0 12px rgba(255, 213, 74, 0.25),
+    inset 0 0 10px rgba(255, 213, 74, 0.08);
+
+  overflow: hidden;
+}
+
+.casino-title::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+
+  transform: skewX(-20deg);
+  animation: shimmer 4s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+.casino-table {
+  width: min(1100px, 92vw);
+  min-height: 80vh;
+  padding: 32px;
+
+  border-radius: 20px;
+
+  background: radial-gradient(circle at top, #0b5e3b, #063d26);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(0, 255, 120, 0.15);
+
+  backdrop-filter: blur(8px);
+
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+
+  align-items: center;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.casino-bar {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  max-width: 420px;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+
+  border: 2px solid rgba(255, 213, 74, 0.55);
+
+  box-shadow:
+    0 0 14px rgba(255, 213, 74, 0.25),
+    inset 0 0 10px rgba(255, 213, 74, 0.08);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.casino-btn {
+  background: linear-gradient(to bottom, #ffd54a, #c89b1e);
+  color: #1a1200;
+
+  font-weight: 700;
+
+  border: 1px solid rgba(255, 213, 74, 0.7);
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 0 rgba(120, 90, 10, 0.8),
+    0 0 14px rgba(255, 213, 74, 0.25);
+
+  transition: all 0.15s ease;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.casino-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow:
+    0 5px 0 rgba(120, 90, 10, 0.8),
+    0 0 18px rgba(255, 213, 74, 0.35);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.casino-btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 2px 0 rgba(120, 90, 10, 0.8),
+    0 0 10px rgba(255, 213, 74, 0.2);
 }

@@ -24,35 +24,45 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-emerald-900 text-white p-6">
-      <h1 className="text-4xl font-bold text-center mb-6">
-        Blackjack
-      </h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-black p-6">
+      <div className="casino-table">
+        <h1 className="casino-title mb-8">
+          Blackjack by Matheo
+        </h1>
 
-      {!game ? (
-        <div className="text-center">
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            className="px-3 py-2 rounded text-black"
-          />
-          <button onClick={startGame} className="bg-green-600 px-4 py-2 rounded">
-            Start Game
-          </button>
-        </div>
-      ) : (
-        <>
-          <GameBoard game={game} />
+        {!game ? (
+          <form className="w-full max-w-sm mx-auto flex justify-center">
+            <div className="casino-bar">
+              <input
+                className="appearance-none bg-transparent border-none w-full text-yellow-100 placeholder-yellow-200/50 leading-tight focus:outline-none px-2"
+                type="text"
+                placeholder="Enter your name"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+              />
 
-          <ControlButtons
-            status={game.status}
-            onHit={hit}
-            onStand={stand}
-          />
-        </>
-      )}
+              <button
+                type="button"
+                onClick={startGame}
+                className="casino-btn flex-shrink-0 px-5 py-2 whitespace-nowrap"
+              >
+                Start Game
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="w-full flex justify-center">
+            <GameBoard game={game} />
+            <div className="mt-auto pt-6">
+              <ControlButtons
+                status={game.status}
+                onHit={hit}
+                onStand={stand}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

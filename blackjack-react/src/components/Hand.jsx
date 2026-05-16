@@ -9,7 +9,7 @@ export default function Hand({ title, cards, total }) {
         {cards.map((c, i) => (
           <div
             key={i}
-            className="bg-white text-black p-2 rounded w-14 text-center"
+            className="bg-white text-black p-2 rounded w-16 text-center shadow-lg border border-gray-300"
           >
             <div>{c.rank}</div>
             <div>{c.suit}</div>
