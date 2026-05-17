@@ -1,4 +1,15 @@
-export default function BlackjackBoard({ game }) {
+import GameStatus from "./GameStatus";
+import Hand from "./Hand";
+
+export default function BlackjackBoard({ game, loading, error }) {
+  let displayStatus = game?.Status;
+  if (loading) {
+    displayStatus = "Processing...";
+  }
+
+  if (error) {
+    displayStatus = error;
+  }
   const playerCards = game.PlayerCards ?? [];
   const dealerCards = game.DealerCards ?? [];
 
@@ -7,9 +18,9 @@ export default function BlackjackBoard({ game }) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <GameStatus status={game.Status} />
+      <GameStatus status={displayStatus} />
 
-      <div className="flex justify-between mt-6 gap-6">
+      <div className="grid grid-cols-2 gap-6 mt-6">
         <Hand title="Player" cards={playerCards} total={playerTotal} />
         <Hand title="Dealer" cards={dealerCards} total={dealerTotal} />
       </div>

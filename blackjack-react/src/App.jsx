@@ -5,28 +5,55 @@ import GameService from "./services/blackjackService";
 
 function App() {
   const [game, setGame] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [playerName, setPlayerName] = useState("");
+  const [gameID, setGameID] = useState(null);
+  const gameRunning = game && game?.Status === "PlayerTurn";
+
+  const executeGameAction = async (action) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await action();
+
+      if (!res) {
+        throw new Error("No response from server");
+      }
+
+      setGame(res);
+    } catch (err) {
+      setError(err.message || "API request failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const startGame = async () => {
     const nameNormalized = playerName.trim() || "Player";
-    const res = await GameService.startGame(nameNormalized);
-    setGame(res);
+
+    await executeGameAction(() =>
+      GameService.startGame(nameNormalized)
+    );
   };
 
   const hit = async () => {
-    const res = await GameService.hit(game.gameID);
-    setGame(res);
+    await executeGameAction(() =>
+      GameService.hit(game.gameID)
+    );
   };
 
   const stand = async () => {
-    const res = await GameService.stand(game.gameID);
-    setGame(res);
+    await executeGameAction(() =>
+      GameService.stand(game.gameID)
+    );
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-black p-6">
       <div className="casino-table">
-        <div className="flex flex-col items-center">        
+        <div className="flex flex-col items-center">
           <h1 className="casino-title mb-8 gold-ring">
             Blackjack by Matheo
           </h1>
@@ -52,22 +79,23 @@ function App() {
               </div>
             </form>
           ) : (
-            <div className="w-full flex justify-center">
-              <GameBoard game={game} />
-              <div className="mt-auto pt-6">
-                <ControlButtons
-                  status={game.status}
-                  onHit={hit}
-                  onStand={stand}
-                />
-              </div>
-            </div>
+          <div className="w-full max-w-4xl flex flex-col items-center gap-6">
+            {!loading && gameRunning && (
+              <ControlButtons
+                status={game.status}
+                onHit={hit}
+                onStand={stand}                
+              />
+            )}
+                        <GameBoard game={game} loading={loading} error={error} />
+
+          </div>
           )}
         </div>
 
-        <footer 
+        <footer
           className="absolute bottom-4 left-5 text-xs font-sans tracking-wide select-none pointer-events-none"
-          style={{ color: "#a3a3a3" }} 
+          style={{ color: "#a3a3a3" }}
         >
           Matheo 2026 © It worked on my machine!
         </footer>
