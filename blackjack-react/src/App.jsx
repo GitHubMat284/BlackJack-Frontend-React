@@ -87,7 +87,7 @@ function App() {
                 onStand={stand}                
               />
             )}
-                        <GameBoard game={game} loading={loading} error={error} />
+            <GameBoard game={game} loading={loading} error={error} />
 
           </div>
           )}
