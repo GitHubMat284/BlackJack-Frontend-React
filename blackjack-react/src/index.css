@@ -1,111 +1,158 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-body {
-  margin: 0;
-}
-
+html,
+body,
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
+  background: #1e243e;
+  --casino-radius: 10px; 
+  font-size: 14px;
+}
+
+.gold-ring {
+  border: 2px solid rgba(255, 213, 74, 0.55);
+
+  border-radius: var(--casino-radius);
+
+  box-shadow:
+    0 0 10px rgba(255, 213, 74, 0.22),
+    inset 0 0 8px rgba(255, 213, 74, 0.08);
+}
+
+.casino-title {
+  padding: 10px 20px;
+  font-size: 3.0rem;
+  font-weight: 900;
+  font-family:
+    "Trebuchet MS",
+    "Verdana",
+    sans-serif;
+  letter-spacing: 2px;
   text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  background: linear-gradient(
+    90deg,
+    #ffd54a 0%,
+    #fff1a8 20%,
+    #ffd54a 40%,
+    #fff6cc 50%,
+    #ffd54a 60%,
+    #ffd54a 100%
+  );
+  background-size: 250% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: textShimmer 4s linear infinite;
+  text-shadow:
+    0 0 10px rgba(255, 213, 74, 0.35),
+    0 0 18px rgba(255, 213, 74, 0.15);
+}
+
+@keyframes textShimmer {
+  from {
+    background-position: 200% center;
+  }
+
+  to {
+    background-position: -200% center;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #ffd54a 0%,
+    #fff1a8 20%,
+    #ffd54a 40%,
+    #fff6cc 50%,
+    #ffd54a 60%,
+    #ffd54a 100%
+  );
+
+  background-size: 250% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  animation: textShimmer 2.5s linear infinite;
+
+  text-shadow:
+    0 0 10px rgba(255, 213, 74, 0.35),
+    0 0 18px rgba(255, 213, 74, 0.15);
+}
+
+.casino-table {
+  width: min(1200px, 94vw);
+  min-height: 85vh;
+  padding: 30px;
+
+  border-radius: var(--casino-radius);
+
+  background: radial-gradient(circle at top, #0b5e3b, #063d26);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(0, 255, 120, 0.15);
+
+  position: relative;
+  isolation: isolate;
+  display: block;
+}
+
+.casino-bar {
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  align-items: center;
+
+  width: 100%;
+  max-width: 380px;
+  padding: 8px 10px;
+
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.casino-bar input {
+  color: white;
+  font-size: 1.1rem;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.casino-bar input::placeholder {
+  color: rgba(254, 240, 138, 0.55);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.casino-btn {
+  background: linear-gradient(to bottom, #ffd54a, #c89b1e);
+
+  font-weight: 700;
+
+  border: 1px solid rgba(255, 213, 74, 0.7);
+  border-radius: 12px;
+
+  padding: 8px 10px;
+  font-size: 1.3rem;
+  min-height: 40px;
+  min-width: 100px;
+
+  box-shadow:
+    0 4px 0 rgba(120, 90, 10, 0.8),
+    0 0 14px rgba(255, 213, 74, 0.25);
+
+  transition: all 0.15s ease;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.casino-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow:
+    0 5px 0 rgba(120, 90, 10, 0.8),
+    0 0 18px rgba(255, 213, 74, 0.35);
+}
+
+.casino-btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 2px 0 rgba(120, 90, 10, 0.8),
+    0 0 10px rgba(255, 213, 74, 0.2);
 }

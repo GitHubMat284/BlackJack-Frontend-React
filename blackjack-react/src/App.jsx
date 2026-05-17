@@ -1,122 +1,142 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from "react";
+import BlackjackBoard from "./components/BlackjackBoard";
+import ControlButtons from "./components/ControlButtons";
+import GameService from "./services/blackjackService";
+import GameStatus from "./components/GameStatus";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [game, setGame] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [playerName, setPlayerName] = useState("");
+  const gameRunning = game && game?.Status === "PlayerTurn";
+  const isGameOver = game && game.Status !== "PlayerTurn" && game.Status !== "DealerTurn";
+
+  useEffect(() => {
+    if (!game) return;
+
+    const isGameOver =
+      game.Status !== "PlayerTurn" &&
+      game.Status !== "DealerTurn";
+
+    if (isGameOver) {
+      const timer = setTimeout(() => {
+        setGame(null);
+        setError("");
+        setPlayerName("Player");
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [game]);
+
+  const executeGameAction = async (action) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await action();
+
+      if (!res) {
+        throw new Error("No response from server");
+      }
+
+      setGame(res);
+    } catch (err) {
+      setError(err.message || "API request failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const normalizeName = (name) => {
+    return (name || "")
+      .trim()
+      .slice(0, 16) || "Player";
+  };
+
+  const startGame = async () => {
+    const name = normalizeName(playerName);
+
+    setPlayerName(name);
+
+    await executeGameAction(() =>
+      GameService.startGame(name)
+    );
+  };
+
+  const hit = async () => {
+    await executeGameAction(() =>
+      GameService.hit(game.GameID)
+    );
+  };
+
+  const stand = async () => {
+    await executeGameAction(() =>
+      GameService.stand(game.GameID)
+    );
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-black p-6">
+      <div className="casino-table">
+        <div className="flex flex-col items-center">
+          <h1 className="casino-title mb-8 gold-ring">
+            Blackjack by Matheo
+          </h1>
+
+          {!game ? (
+            <form className="w-full max-w-sm mx-auto flex justify-center">
+              <div className="casino-bar gold-ring">
+                <input
+                  maxLength={16}
+                  className="appearance-none bg-transparent border-none w-full text-white font-semibold placeholder-yellow-200/50 leading-tight focus:outline-none px-2"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={startGame}
+                  className="casino-btn flex-shrink-0 px-5 py-2 whitespace-nowrap"
+                >
+                  Start Game
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="w-full max-w-4xl flex flex-col items-center gap-6">
+              <GameStatus status={game?.Status} />
+
+              <BlackjackBoard
+                player={playerName}
+                game={game}
+                loading={loading}
+                error={error}
+              />
+
+              {!loading && gameRunning && (
+                <ControlButtons
+                  onHit={hit}
+                  onStand={stand}
+                />
+              )}
+            </div>
+          )}
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+
+        <footer
+          className="absolute bottom-4 left-5 text-xs font-sans tracking-wide select-none pointer-events-none"
+          style={{ color: "#a3a3a3" }}
         >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          Matheo 2026 © It worked on my machine!
+        </footer>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
