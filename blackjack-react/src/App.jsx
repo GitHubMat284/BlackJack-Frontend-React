@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GameBoard from "./components/BlackjackBoard";
-import Controls from "./components/ControlButtons";
+import ControlButtons from "./components/ControlButtons";
 import GameService from "./services/blackjackService";
 
 function App() {
@@ -26,42 +26,52 @@ function App() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-black p-6">
       <div className="casino-table">
-        <h1 className="casino-title mb-8">
-          Blackjack by Matheo
-        </h1>
+        <div className="flex flex-col items-center">        
+          <h1 className="casino-title mb-8 gold-ring">
+            Blackjack by Matheo
+          </h1>
 
-        {!game ? (
-          <form className="w-full max-w-sm mx-auto flex justify-center">
-            <div className="casino-bar">
-              <input
-                className="appearance-none bg-transparent border-none w-full text-yellow-100 placeholder-yellow-200/50 leading-tight focus:outline-none px-2"
-                type="text"
-                placeholder="Enter your name"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-              />
+          {!game ? (
+            <form className="w-full max-w-sm mx-auto flex justify-center">
+              <div className="casino-bar gold-ring">
+                <input
+                  className="appearance-none bg-transparent border-none w-full text-white placeholder-yellow-200/50 leading-tight focus:outline-none px-2"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                />
 
-              <button
-                type="button"
-                onClick={startGame}
-                className="casino-btn flex-shrink-0 px-5 py-2 whitespace-nowrap"
-              >
-                Start Game
-              </button>
+                <button
+                  type="button"
+                  onClick={startGame}
+                  className="casino-btn flex-shrink-0 px-5 py-2 whitespace-nowrap"
+                >
+                  Start Game
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="w-full flex justify-center">
+              <GameBoard game={game} />
+              <div className="mt-auto pt-6">
+                <ControlButtons
+                  status={game.status}
+                  onHit={hit}
+                  onStand={stand}
+                />
+              </div>
             </div>
-          </form>
-        ) : (
-          <div className="w-full flex justify-center">
-            <GameBoard game={game} />
-            <div className="mt-auto pt-6">
-              <ControlButtons
-                status={game.status}
-                onHit={hit}
-                onStand={stand}
-              />
-            </div>
-          </div>
-        )}
+          )}
+        </div>
+
+        <footer 
+          className="absolute bottom-4 left-5 text-xs font-sans tracking-wide select-none pointer-events-none"
+          style={{ color: "#a3a3a3" }} 
+        >
+          Matheo 2026 © It worked on my machine!
+        </footer>
+
       </div>
     </div>
   );

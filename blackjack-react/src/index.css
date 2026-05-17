@@ -2,69 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  background: #1e243e;
+  --casino-radius: 10px; 
+  font-size: 14px;
+}
+
 .gold-ring {
   border: 2px solid rgba(255, 213, 74, 0.55);
+
+  border-radius: var(--casino-radius);
+
   box-shadow:
-    0 0 12px rgba(255, 213, 74, 0.25),
-    inset 0 0 10px rgba(255, 213, 74, 0.08);
+    0 0 10px rgba(255, 213, 74, 0.22),
+    inset 0 0 8px rgba(255, 213, 74, 0.08);
 }
 
 .casino-title {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #ffd54a;
-  text-align: center;
-  letter-spacing: 2px;
-
-  position: relative;
-  display: inline-block;
-
   padding: 10px 20px;
-  border-radius: 12px;
-
-  border: 2px solid rgba(255, 213, 74, 0.55);
-  box-shadow:
-    0 0 12px rgba(255, 213, 74, 0.25),
-    inset 0 0 10px rgba(255, 213, 74, 0.08);
-
-  overflow: hidden;
-}
-
-.casino-title::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-
+  font-size: 3.0rem;
+  font-weight: 900;
+  font-family:
+    "Trebuchet MS",
+    "Verdana",
+    sans-serif;
+  letter-spacing: 2px;
+  text-align: center;
   background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.35) 50%,
-    transparent 100%
+    90deg,
+    #ffd54a 0%,
+    #fff1a8 20%,
+    #ffd54a 40%,
+    #fff6cc 50%,
+    #ffd54a 60%,
+    #ffd54a 100%
   );
-
-  transform: skewX(-20deg);
-  animation: shimmer 4s infinite;
-  pointer-events: none;
+  background-size: 250% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: textShimmer 4s linear infinite;
+  text-shadow:
+    0 0 10px rgba(255, 213, 74, 0.35),
+    0 0 18px rgba(255, 213, 74, 0.15);
 }
 
-@keyframes shimmer {
-  0% {
-    left: -100%;
+@keyframes textShimmer {
+  from {
+    background-position: 200% center;
   }
-  100% {
-    left: 200%;
+
+  to {
+    background-position: -200% center;
   }
 }
 
 .casino-table {
-  width: min(1100px, 92vw);
-  min-height: 80vh;
-  padding: 32px;
+  width: min(1200px, 94vw);
+  min-height: 85vh;
+  padding: 30px;
 
-  border-radius: 20px;
+  border-radius: var(--casino-radius);
 
   background: radial-gradient(circle at top, #0b5e3b, #063d26);
   border: 2px solid rgba(255, 215, 0, 0.4);
@@ -73,12 +73,9 @@
     0 20px 60px rgba(0, 0, 0, 0.7),
     inset 0 0 30px rgba(0, 255, 120, 0.15);
 
-  backdrop-filter: blur(8px);
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
+  position: relative;
+  isolation: isolate;
+  display: block;
 }
 
 .casino-bar {
@@ -86,19 +83,20 @@
   align-items: center;
 
   width: 100%;
-  max-width: 420px;
-
-  padding: 10px 12px;
-  border-radius: 14px;
+  max-width: 380px;
+  padding: 8px 10px;
 
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
+}
 
-  border: 2px solid rgba(255, 213, 74, 0.55);
+.casino-bar input {
+  color: white;
+  font-size: 1.1rem;
+}
 
-  box-shadow:
-    0 0 14px rgba(255, 213, 74, 0.25),
-    inset 0 0 10px rgba(255, 213, 74, 0.08);
+.casino-bar input::placeholder {
+  color: rgba(254, 240, 138, 0.55);
 }
 
 .casino-btn {
@@ -109,6 +107,11 @@
 
   border: 1px solid rgba(255, 213, 74, 0.7);
   border-radius: 12px;
+
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  min-height: 40px;
+  min-width: 100px;
 
   box-shadow:
     0 4px 0 rgba(120, 90, 10, 0.8),
