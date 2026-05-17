@@ -59,6 +59,29 @@ body,
   }
 }
 
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #ffd54a 0%,
+    #fff1a8 20%,
+    #ffd54a 40%,
+    #fff6cc 50%,
+    #ffd54a 60%,
+    #ffd54a 100%
+  );
+
+  background-size: 250% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  animation: textShimmer 2.5s linear infinite;
+
+  text-shadow:
+    0 0 10px rgba(255, 213, 74, 0.35),
+    0 0 18px rgba(255, 213, 74, 0.15);
+}
+
 .casino-table {
   width: min(1200px, 94vw);
   min-height: 85vh;
@@ -101,7 +124,6 @@ body,
 
 .casino-btn {
   background: linear-gradient(to bottom, #ffd54a, #c89b1e);
-  color: #1a1200;
 
   font-weight: 700;
 
@@ -109,7 +131,7 @@ body,
   border-radius: 12px;
 
   padding: 8px 10px;
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   min-height: 40px;
   min-width: 100px;
 

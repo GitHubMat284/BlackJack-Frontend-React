@@ -27,18 +27,18 @@ const color = (suit) =>
 export default function Card({ card }) {
   return (
     <div
-      className="relative w-14 h-20 bg-white rounded-md shadow-md border"
+      className="relative w-24 h-32 bg-white rounded-lg shadow-lg border"
       style={{ color: color(card.Suit) }}
     >
-      <div className="absolute top-1 left-1 text-xs font-bold">
+      <div className="absolute top-1 left-1 text-xl font-bold">
         {shortRank[card.Rank]} {symbol[card.Suit]}
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center text-xl">
+      <div className="absolute inset-0 flex items-center justify-center text-4xl">
         {symbol[card.Suit]}
       </div>
 
-      <div className="absolute bottom-1 right-1 text-xs font-bold rotate-180">
+      <div className="absolute bottom-1 right-1 text-xl font-bold rotate-180">
         {shortRank[card.Rank]} {symbol[card.Suit]}
       </div>
     </div>

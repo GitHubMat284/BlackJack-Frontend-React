@@ -1,15 +1,34 @@
-import { useState } from "react";
-import GameBoard from "./components/BlackjackBoard";
+import { useState, useEffect } from "react";
+import BlackjackBoard from "./components/BlackjackBoard";
 import ControlButtons from "./components/ControlButtons";
 import GameService from "./services/blackjackService";
+import GameStatus from "./components/GameStatus";
 
 function App() {
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [playerName, setPlayerName] = useState("");
-  const [gameID, setGameID] = useState(null);
   const gameRunning = game && game?.Status === "PlayerTurn";
+  const isGameOver = game && game.Status !== "PlayerTurn" && game.Status !== "DealerTurn";
+
+  useEffect(() => {
+    if (!game) return;
+
+    const isGameOver =
+      game.Status !== "PlayerTurn" &&
+      game.Status !== "DealerTurn";
+
+    if (isGameOver) {
+      const timer = setTimeout(() => {
+        setGame(null);
+        setError("");
+        setPlayerName("Player");
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [game]);
 
   const executeGameAction = async (action) => {
     try {
@@ -30,23 +49,31 @@ function App() {
     }
   };
 
+  const normalizeName = (name) => {
+    return (name || "")
+      .trim()
+      .slice(0, 16) || "Player";
+  };
+
   const startGame = async () => {
-    const nameNormalized = playerName.trim() || "Player";
+    const name = normalizeName(playerName);
+
+    setPlayerName(name);
 
     await executeGameAction(() =>
-      GameService.startGame(nameNormalized)
+      GameService.startGame(name)
     );
   };
 
   const hit = async () => {
     await executeGameAction(() =>
-      GameService.hit(game.gameID)
+      GameService.hit(game.GameID)
     );
   };
 
   const stand = async () => {
     await executeGameAction(() =>
-      GameService.stand(game.gameID)
+      GameService.stand(game.GameID)
     );
   };
 
@@ -62,7 +89,8 @@ function App() {
             <form className="w-full max-w-sm mx-auto flex justify-center">
               <div className="casino-bar gold-ring">
                 <input
-                  className="appearance-none bg-transparent border-none w-full text-white placeholder-yellow-200/50 leading-tight focus:outline-none px-2"
+                  maxLength={16}
+                  className="appearance-none bg-transparent border-none w-full text-white font-semibold placeholder-yellow-200/50 leading-tight focus:outline-none px-2"
                   type="text"
                   placeholder="Enter your name"
                   value={playerName}
@@ -71,6 +99,7 @@ function App() {
 
                 <button
                   type="button"
+                  disabled={loading}
                   onClick={startGame}
                   className="casino-btn flex-shrink-0 px-5 py-2 whitespace-nowrap"
                 >
@@ -79,17 +108,23 @@ function App() {
               </div>
             </form>
           ) : (
-          <div className="w-full max-w-4xl flex flex-col items-center gap-6">
-            {!loading && gameRunning && (
-              <ControlButtons
-                status={game.status}
-                onHit={hit}
-                onStand={stand}                
-              />
-            )}
-            <GameBoard game={game} loading={loading} error={error} />
+            <div className="w-full max-w-4xl flex flex-col items-center gap-6">
+              <GameStatus status={game?.Status} />
 
-          </div>
+              <BlackjackBoard
+                player={playerName}
+                game={game}
+                loading={loading}
+                error={error}
+              />
+
+              {!loading && gameRunning && (
+                <ControlButtons
+                  onHit={hit}
+                  onStand={stand}
+                />
+              )}
+            </div>
           )}
         </div>
 
@@ -99,7 +134,6 @@ function App() {
         >
           Matheo 2026 © It worked on my machine!
         </footer>
-
       </div>
     </div>
   );
