@@ -4,11 +4,8 @@ This project is a React-based frontend for a single-player Blackjack game. It is
 
 ---
 
-## Overview
-
-The application allows a player to start a game, enter a name, and play a standard round of Blackjack against a dealer. All game actions (start, hit, stand) are handled through API calls, and the UI updates based on the backend response.
-
-The interface is designed around clear game phases: setup, active play, and result display.
+# Reference tutorial:
+[![Blackjack Tutorial](https://img.youtube.com/vi/xjqTIzYkGdI/0.jpg)](https://www.youtube.com/watch?v=xjqTIzYkGdI)
 
 ---
 
