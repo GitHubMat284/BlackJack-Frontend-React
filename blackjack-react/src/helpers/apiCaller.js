@@ -1,5 +1,4 @@
 const BLACKJACK_API_BASE_URL = import.meta.env.VITE_BLACKJACK_API_URL;
-const FUNCTION_KEY = import.meta.env.VITE_FUNCTION_KEY;
 
 // A simple API caller class to help handling API requests to our cloud hosted backend
 class ApiCaller {
@@ -14,7 +13,6 @@ class ApiCaller {
             method,
             headers: {
                 "Content-Type": "application/json",
-                "x-functions-key": FUNCTION_KEY
             }
         };
 
