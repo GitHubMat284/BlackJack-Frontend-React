@@ -1,4 +1,4 @@
-const BLACKJACK_API_BASE_URL = import.meta.env.VITE_BLACKJACK_API_URL;
+const BASE_URL = import.meta.env.VITE_BLACKJACK_API_URL?.replace(/\/$/, "");
 
 // A simple API caller class to help handling API requests to our cloud hosted backend
 class ApiCaller {
@@ -7,7 +7,7 @@ class ApiCaller {
     }
 
     async request(endpoint, method, body = null) {
-        const url = `${BLACKJACK_API_BASE_URL}${endpoint}`;
+        const url = `${BASE_URL}${endpoint}`;
 
         const options = {
             method,
