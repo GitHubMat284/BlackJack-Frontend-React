@@ -25,10 +25,14 @@ jobs:
         working-directory: blackjack-react
         run: npm install
 
+      - name: Create env file
+        working-directory: blackjack-react
+        run: |
+          echo "VITE_BLACKJACK_API_URL=https://blackjack-backend-eacdc5apakctgqer.canadaeast-01.azurewebsites.net" >> .env
+      
       - name: Build project
         working-directory: blackjack-react
         run: |
-          echo "VITE_BLACKJACK_API_URL=blackjack-backend-eacdc5apakctgqer.canadaeast-01.azurewebsites.net" >> .env
           npm install
           npm run build
 
