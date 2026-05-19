@@ -23,7 +23,7 @@ function App() {
       const timer = setTimeout(() => {
         setGame(null);
         setError("");
-        setPlayerName("Player");
+        setPlayerName("");
       }, 2500);
 
       return () => clearTimeout(timer);
