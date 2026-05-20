@@ -53,7 +53,7 @@ After completion, the UI resets automatically for a new round.
 
 ## Game Rules (Simplified Blackjack)
 
-<img width="1565" height="1115" alt="image" src="https://github.com/user-attachments/assets/fc0f7571-1c59-4bd3-a0f0-18df5cad2041" />
+<img width="1366" height="955" alt="image" src="https://github.com/user-attachments/assets/996cf994-7a6d-4937-b407-cc460dd326e9" />
 
 * Standard 52-card deck is used
 * Number cards use face value
