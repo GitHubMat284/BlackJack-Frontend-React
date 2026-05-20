@@ -27,7 +27,7 @@ const color = (suit) =>
 export default function Card({ card }) {
   return (
     <div
-      className="relative w-24 h-32 bg-white rounded-lg shadow-lg border"
+      className="relative w-24 h-32 bg-white rounded-lg shadow-lg border border-neutral-300"
       style={{ color: color(card.Suit) }}
     >
       <div className="absolute top-1 left-1 text-xl font-bold">

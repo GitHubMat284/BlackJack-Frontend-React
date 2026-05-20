@@ -1,7 +1,7 @@
 export default function ControlButtons({onHit, onStand }) {
 
   return (
-    <div className="flex flex-col items-center gap-3 mt-6">
+    <div className="flex flex-col items-center gap-3 mt-3 sm:mt-6">
 
       <div className="flex gap-4">
         <button
